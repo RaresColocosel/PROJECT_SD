@@ -17,9 +17,9 @@ public class IndexController {
     }
 
     // Using a GET request with a path variable "/indexer/initialize/{directory}"
-    // e.g. GET http://localhost:8080/indexer/initialize/C:/myfiles
-    @GetMapping("/initialize/{directory}")
-    public ResponseEntity<String> reindex(@PathVariable String directory) {
+    // e.g. GET http://localhost:8080/indexer/initialize?directory=E:/LocalSearchEngine
+    @GetMapping("/initialize")
+    public ResponseEntity<String> reindex(@RequestParam String directory) {
         serviceClass.indexDirectory(directory);
         String msg = "Incremental indexing started for directory: " + directory;
         return ResponseEntity.ok(msg);

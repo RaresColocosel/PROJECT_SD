@@ -1,9 +1,9 @@
-package com.example.LocalSearchEngine.Filesystem.FileCrawler;
+package com.example.LocalSearchEngine.Filesystem.Indexer;
 
 import com.example.LocalSearchEngine.Domain.Database.DatabaseHandler;
 import com.example.LocalSearchEngine.Domain.Model.IndexOfFile;
-import com.example.LocalSearchEngine.Domain.Utils.FileUtils;
 import com.example.LocalSearchEngine.Filesystem.FileDataExtractor;
+import com.example.LocalSearchEngine.Filesystem.FileCrawler.FileCrawler;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -63,6 +63,7 @@ public class FileIndexer {
                     newFile.setFileName(file.getName());
                     newFile.setFilePath(file.getAbsolutePath());
                     newFile.setFileContent(FileDataExtractor.extractText(file));
+                    newFile.setFileType(FileDataExtractor.extractTxtType(file));
                     newFile.setIndexedAt(lastModified);
                     newFiles.add(newFile);
                 }

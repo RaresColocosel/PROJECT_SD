@@ -1,6 +1,6 @@
 package com.example.LocalSearchEngine.Backend;
 
-import com.example.LocalSearchEngine.Filesystem.FileCrawler.FileIndexer;
+import com.example.LocalSearchEngine.Filesystem.Indexer.FileIndexer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
