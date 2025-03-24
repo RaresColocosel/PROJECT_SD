@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class Mapper implements RowMapper<IndexOfFile> {
+public class  Mapper implements RowMapper<IndexOfFile> {
 
     @Override
     public @NonNull IndexOfFile mapRow(@NonNull ResultSet rs, int rowNum) throws SQLException {

@@ -94,7 +94,7 @@ public class DatabaseHandler {
     }
 
     public static void writeInFile(String message) {
-        String filename = "Process.txt";
+        String filename = "Process.txt.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
             writer.write(message);
             writer.newLine();
