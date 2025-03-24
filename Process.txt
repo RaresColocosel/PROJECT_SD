@@ -4,3 +4,26 @@ Starting incremental indexing for: E:/LocalSearchEngine
 FileCrawler found 2 files.
 Inserted 2 new file(s).
 Finished incremental indexing for: E:/LocalSearchEngine
+Starting incremental indexing for: E:/LocalSearchEngine
+FileCrawler found 2 files.
+Updated 1 existing file(s).
+Finished incremental indexing for: E:/LocalSearchEngine
+Starting incremental indexing for: E:/LocalSearchEngine
+FileCrawler found 1 files.
+Updated 1 existing file(s).
+Finished incremental indexing for: E:/LocalSearchEngine
+Starting incremental indexing for: E:/LocalSearchEngine
+FileCrawler found 1 files.
+Updated 1 existing file(s).
+Finished incremental indexing for: E:/LocalSearchEngine
+Resetting file_index table...
+Sequence file_index_id_seq reset to 1.
+Starting incremental indexing for: E:/LocalSearchEngine
+FileCrawler found 1 files.
+Inserted 1 new file(s).
+Finished incremental indexing for: E:/LocalSearchEngine
+Starting incremental indexing for: E:/LocalSearchEngine
+FileCrawler found 2 files.
+Inserted 1 new file(s).
+Updated 1 existing file(s).
+Finished incremental indexing for: E:/LocalSearchEngine
