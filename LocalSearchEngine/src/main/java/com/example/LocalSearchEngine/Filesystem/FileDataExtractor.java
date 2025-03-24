@@ -31,6 +31,7 @@ public class FileDataExtractor {
             System.err.println("Error processing " + file.getAbsolutePath() + " => " + e.getMessage());
             return "";
         }
+        return "";
     }
 
     public static String extractTxtType(File file) {
