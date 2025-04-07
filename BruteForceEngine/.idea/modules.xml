@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PROJECT_SD.iml" filepath="$PROJECT_DIR$/.idea/PROJECT_SD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/BruteForceEngine.iml" filepath="$PROJECT_DIR$/.idea/BruteForceEngine.iml" />
     </modules>
   </component>
 </project>
