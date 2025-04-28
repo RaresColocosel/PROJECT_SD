@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Search Engine</title>
+  <style>
+    /* Reset and base styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7fa; color: #333; }
+    .container { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    header { text-align: center; margin-bottom: 30px; }
+    header h1 { font-size: 2.5em; color: #1a73e8; }
+    header .subtitle { font-size: 1em; color: #666; margin-top: 8px; }
+
+    .form-section { margin-bottom: 30px; }
+    .form-section h2 { font-size: 1.5em; margin-bottom: 15px; color: #1a73e8; }
+    .form-inline { display: flex; gap: 10px; flex-wrap: wrap; }
+    .form-inline input[type="text"] { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; }
+    .form-inline button { padding: 10px 20px; background: #1a73e8; color: #fff; border: none; border-radius: 4px; font-size: 1em; cursor: pointer; transition: background 0.3s; }
+    .form-inline button:hover { background: #1558b0; }
+
+    .messages { margin-top: 15px; }
+    .messages ul { list-style: none; }
+    .messages li { padding: 10px; border-radius: 4px; margin-bottom: 10px; }
+    .messages .error { background: #fdecea; color: #d22; }
+    .messages .info  { background: #e8f0fe; color: #1967d2; }
+
+    #suggestions { list-style: none; margin-top: 10px; padding: 0; }
+    #suggestions li { padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+    #suggestions li:hover { background: #eef3fc; }
+
+    footer { text-align: center; margin-top: 40px; font-size: 0.9em; color: #999; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Local Search Engine</h1>
+    </header>
+
+    <section class="form-section">
+      <h2>Index Directory</h2>
+      <form action="/index" method="post" class="form-inline">
+        <input type="text" name="directory" placeholder="Enter directory path" required>
+        <button type="submit">Start Indexing</button>
+      </form>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="messages">
+            <ul>
+              {% for category, msg in messages %}
+                <li class="{{ category }}">{{ msg }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </section>
+
+    <section class="form-section">
+      <h2>Search Files</h2>
+      <form action="/search" method="get" class="form-inline">
+        <input type="text" id="query" name="query" placeholder="Path:A/B Content:C" required oninput="updateSuggest()">
+        <button type="submit">Search</button>
+      </form>
+      <ul id="suggestions"></ul>
+    </section>
+  </div>
+
+  <script>
+    function updateSuggest() {
+      const q = document.getElementById('query').value;
+      if (q.length < 2) {
+        document.getElementById('suggestions').innerHTML = '';
+        return;
+      }
+      fetch('/suggest?prefix=' + encodeURIComponent(q))
+        .then(res => res.json())
+        .then(data => {
+          const ul = document.getElementById('suggestions'); ul.innerHTML = '';
+          data.forEach(s => {
+            let li = document.createElement('li');
+            li.textContent = s;
+            li.onclick = () => {
+              document.getElementById('query').value = s;
+              ul.innerHTML = '';
+            };
+            ul.appendChild(li);
+          });
+        });
+    }
+  </script>
+</body>
+</html>
