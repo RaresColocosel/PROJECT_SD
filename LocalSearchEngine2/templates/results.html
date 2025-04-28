@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { background: #f9f9f9; margin-bottom: 10px; padding: 10px; border-radius: 4px; }
+    li h2 { margin: 0 0 5px 0; font-size: 1.2em; }
+    li p { margin: 4px 0; }
+    pre { background: #eee; padding: 8px; border-radius: 4px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>Search Results for "{{ query }}"</h1>
+  {% if results %}
+    <ul>
+      {% for r in results %}
+        <li>
+          <h2>{{ r.file_name }}</h2>
+          <p><strong>Type:</strong> {{ r.file_type or 'N/A' }}</p>
+          <p><strong>Path:</strong> {{ r.file_path }}</p>
+          <p><strong>Score:</strong> {{ '%.2f'|format(r.score) }}</p>
+          {% if r.preview %}
+            <pre>{{ r.preview|join("\n") }}</pre>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No results found for "{{ query }}".</p>
+  {% endif %}
+  <p><a href="{{ url_for('index') }}">Back to Search</a></p>
+</body>
+</html>
