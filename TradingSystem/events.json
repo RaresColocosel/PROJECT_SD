@@ -1,0 +1,56 @@
+[
+  {
+    "type": "FundsCredited",
+    "timestamp": "2025-05-19T11:55:32.981916",
+    "user_id": "Alice",
+    "amount": 5000.0
+  },
+  {
+    "type": "FundsCredited",
+    "timestamp": "2025-05-19T11:55:40.798600",
+    "user_id": "Bob",
+    "amount": 1.0
+  },
+  {
+    "type": "OrderPlaced",
+    "timestamp": "2025-05-19T11:55:59.889849",
+    "order_id": "c21e9f24-c96a-47e8-8456-c1a95cabc65c",
+    "user_id": "Alice",
+    "side": "buy",
+    "symbol": "Book",
+    "quantity": 3,
+    "price": 200.0
+  },
+  {
+    "type": "OrderPlaced",
+    "timestamp": "2025-05-19T11:56:15.882252",
+    "order_id": "13da4400-f892-4711-b9b7-e9470fcdd7a5",
+    "user_id": "Bob",
+    "side": "sell",
+    "symbol": "Book",
+    "quantity": 2,
+    "price": 200.0
+  },
+  {
+    "type": "TradeExecuted",
+    "timestamp": "2025-05-19T11:56:15.882252",
+    "trade_id": "8962963c-00e4-4a90-857b-a5d0d5712cb8",
+    "buy_order_id": "c21e9f24-c96a-47e8-8456-c1a95cabc65c",
+    "sell_order_id": "13da4400-f892-4711-b9b7-e9470fcdd7a5",
+    "symbol": "Book",
+    "quantity": 2,
+    "price": 200.0
+  },
+  {
+    "type": "FundsDebited",
+    "timestamp": "2025-05-19T11:56:15.882252",
+    "user_id": "Alice",
+    "amount": 400.0
+  },
+  {
+    "type": "FundsCredited",
+    "timestamp": "2025-05-19T11:56:15.882252",
+    "user_id": "Bob",
+    "amount": 400.0
+  }
+]
