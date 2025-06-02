@@ -1,15 +1,22 @@
+import re
+
 class QueryParser:
-    @staticmethod
-    def parse(input_str):
+    def __init__(self):
+        pass
+
+    def parse(self, raw_query):
+        tokens = re.findall(r"\S+", raw_query)
         paths = []
         contents = []
-        for tok in input_str.strip().split():
-            if tok.lower().startswith('path:'):
-                val = tok[5:];
-                if val: paths.append(val)
-            elif tok.lower().startswith('content:'):
-                val = tok[8:];
-                if val: contents.append(val)
+        for t in tokens:
+            low = t.lower()
+            if low.startswith("path:"):
+                val = t[len("path:"):]
+                paths.append(val)
+            elif low.startswith("content:"):
+                val = t[len("content:"):]
+                contents.append(val)
             else:
-                contents.append(tok)
+                # treat any “bare” word as a content term
+                contents.append(t)
         return paths, contents
