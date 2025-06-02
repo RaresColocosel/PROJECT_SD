@@ -1,36 +1,95 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <title>Search Results</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    ul { list-style: none; padding: 0; }
-    li { background: #f9f9f9; margin-bottom: 10px; padding: 10px; border-radius: 4px; }
-    li h2 { margin: 0 0 5px 0; font-size: 1.2em; }
-    li p { margin: 4px 0; }
-    pre { background: #eee; padding: 8px; border-radius: 4px; overflow: auto; }
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2 { margin-bottom: 0.5rem; }
+    .flash-warning { color: orange; }
+    .flash-error   { color: red; }
+    .flash-info    { color: green; }
+    .result-item { border-bottom: 1px solid #ddd; margin-bottom: 1rem; padding-bottom: 1rem; }
+    .result-header { font-weight: bold; }
+    .result-path   { color: #555; font-size: 0.9rem; }
+    .result-score  { float: right; font-style: italic; color: #333; }
+    .preview { font-style: italic; color: #444; margin-top: 0.3rem; }
+    .widget { border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 1rem; background: #f9f9f9; }
+    .gallery-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .widget-image-item img { max-width: 100px; max-height: 80px; border: 1px solid #aaa; }
+    .log-file-block { margin-bottom: 1rem; font-family: monospace; background: #fff; padding: 0.5rem; }
+    .log-snippet { background-color: #f3f3f3; padding: 0.5rem; max-height: 200px; overflow-y: auto; }
+    .facet-panel { border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 1rem; background: #f1f1f9; }
+    .widgets-container { margin-top: 1rem; }
   </style>
 </head>
 <body>
-  <h1>Search Results for "{{ query }}"</h1>
-  {% if results %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+      {% for category, msg in messages %}
+        <li class="flash-{{category}}">{{ msg }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <h2>Faceted Summary</h2>
+  <div class="facet-panel">
+    <h3>By File Type</h3>
     <ul>
-      {% for r in results %}
-        <li>
-          <h2>{{ r.file_name }}</h2>
-          <p><strong>Type:</strong> {{ r.file_type or 'N/A' }}</p>
-          <p><strong>Path:</strong> {{ r.file_path }}</p>
-          <p><strong>Score:</strong> {{ '%.2f'|format(r.score) }}</p>
-          {% if r.preview %}
-            <pre>{{ r.preview|join("\n") }}</pre>
-          {% endif %}
-        </li>
+      {% for ft, ct in facets_type %}
+        <li>{{ft}}: {{ct}}</li>
       {% endfor %}
     </ul>
+  </div>
+  <div class="facet-panel">
+    <h3>By Indexed Year</h3>
+    <ul>
+      {% for yr, ct in facets_year %}
+        <li>{{yr}}: {{ct}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="facet-panel">
+    <h3>By Language</h3>
+    <ul>
+      {% for lang, ct in facets_lang %}
+        <li>{{lang}}: {{ct}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <h2>Results for “{{ original_query }}”</h2>
+  {% if results|length == 0 %}
+    <p><em>No matching files found.</em></p>
   {% else %}
-    <p>No results found for "{{ query }}".</p>
+    {% for r in results %}
+      <div class="result-item">
+        <div class="result-header">
+          {{ r.file_name }}
+          <span class="result-score">score: {{ r.score }}</span>
+        </div>
+        <div class="result-path">{{ r.file_path }}</div>
+        <div class="preview">
+          Preview:
+          {% for line in (r.file_content or "").splitlines()[:3] %}
+            <br/>{{ line }}
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
   {% endif %}
-  <p><a href="{{ url_for('index') }}">Back to Search</a></p>
+
+  <div class="widgets-container">
+    <h2>Widgets</h2>
+    {% if widgets|length == 0 %}
+      <p><em>No context‐aware widgets.</em></p>
+    {% else %}
+      {% for w in widgets %}
+        {{ w | safe }}
+      {% endfor %}
+    {% endif %}
+  </div>
 </body>
 </html>
