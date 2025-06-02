@@ -1,24 +1,27 @@
-from datetime import datetime
-
 class RankingService:
-    def score(self, file, content_terms):
-        score = file.get('index_score') or 0
-        raw_content = file.get('file_content') or ''
-        text = raw_content.lower()
-        for term in content_terms:
-            if not term:
-                continue
-            score += text.count(term.lower())
-        try:
-            last_str = file.get('last_access_time') or file.get('indexed_at')
-            last = datetime.fromisoformat(last_str)
-            days = (datetime.now() - last).days
-            score += max(0, 7 - days)
-        except Exception:
-            pass
-        return score
+    def __init__(self):
+        pass
 
-    def rank(self, files, content_terms):
-        for f in files:
-            f['score'] = self.score(f, content_terms)
-        return sorted(files, key=lambda x: x['score'], reverse=True)
+    def rank(self, rows, content_terms):
+        scored = []
+        for r in rows:
+            # Lower‐case the text fields
+            content_text = (r.get("file_content") or "").lower()
+            name_text    = (r.get("file_name")    or "").lower()
+
+            score = 0
+            for term in content_terms:
+                term_low = term.lower()
+                score += content_text.count(term_low)
+                score += name_text.count(term_low)
+
+            if not content_terms:
+                score = 1
+
+            new_r = dict(r)
+            new_r["score"] = score
+            scored.append(new_r)
+
+        # Sort by score descending
+        scored.sort(key=lambda x: x["score"], reverse=True)
+        return scored
